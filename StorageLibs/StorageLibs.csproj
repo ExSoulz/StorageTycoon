@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Base\Employe.cs" />
+    <Compile Include="Classes\Base\Good.cs" />
+    <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\Director.cs" />
+    <Compile Include="Classes\Storage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Randomizer.cs" />
