@@ -14,12 +14,12 @@ namespace StorageLibs.Classes.Base
 
     public struct TransactionStruct
     {
-        StorageBase GoodsFrom;
-        StorageBase GoodsTo;
-        Good Goods;
-        int Amount;
-        decimal MoneyTotal;
-        bool Result;
+       public StorageBase GoodsFrom;
+       public StorageBase GoodsTo;
+       public Good Goods;
+       public int Amount;
+       public decimal MoneyTotal;
+       public bool Result;
 
         public TransactionStruct(StorageBase _from, StorageBase _to, Good _goods, int _amount, decimal _moneyTotal, bool _result)
         {

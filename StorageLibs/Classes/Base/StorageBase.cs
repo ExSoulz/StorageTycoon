@@ -17,15 +17,15 @@ namespace StorageLibs.Classes
 
         #region Fields
 
-        int StorageVolumeMax { get; set; }
+        public int StorageVolumeMax { get; private set; }
         bool IsStorageFull { get { return CurentVolume == StorageVolumeMax; } }
 
-        Dictionary<Good, int> Goods { get; set; }
+        public Dictionary<Good, int> Goods { get; set; }
 
 
-        public string Title { get; private set; }
-        public Person Owner { get; private set; }
-        public int CurentVolume { get; private set; }
+        public string Title { get; set; }
+        public Person Owner { get; set; }
+        public int CurentVolume { get; set; }
 
         #endregion
 
@@ -37,14 +37,21 @@ namespace StorageLibs.Classes
             StorageVolumeMax = _maxVolume;
             Owner = _owner;
             Goods = new Dictionary<Good, int>();
+            CurentVolume = 0;
         }
 
         public StorageBase(Person _owner)
         {
-
+            Owner = _owner;
             Goods = new Dictionary<Good, int>();
+            Title = Randomizer.GetRandomName();
+            StorageVolumeMax = 9999999;
+            Goods = new Dictionary<Good, int>();
+            CurentVolume = 0;
         }
 
+        public StorageBase()
+        { }
 
         #endregion
 
@@ -60,7 +67,7 @@ namespace StorageLibs.Classes
                 _storageTo.AddGood(_good, _amount, this);
                 _storageTo.Owner.LowerBalance(price);
                 this.Owner.RiseBalance(price);
-                GoodsSoldEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, true));
+                try { GoodsSoldEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, true)); } catch { }
                 return true;
             }
             else
@@ -84,7 +91,7 @@ namespace StorageLibs.Classes
                 Goods.Add(_good, _amount);
             }
             _storageFrom.DismissGood(_good, _amount);
-            GoodsRecievedEvent(Transaction.GenerateStructure(_storageFrom, this, _good, _amount, price, false));
+            try { GoodsRecievedEvent(Transaction.GenerateStructure(_storageFrom, this, _good, _amount, price, false)); } catch { }
         }
 
         public void DismissGood(Good _good, int _amount) => Goods[_good] -= _amount;

@@ -28,7 +28,7 @@ namespace StorageLibs.Classes.Base
 
         public string Name { get; private set; }
         public string SecondName { get; private set; }
-        public Dictionary<string,StorageBase> StoragesOwned { get; private set; }
+        public Dictionary<string, StorageBase> StoragesOwned { get; private set; }
         public decimal AccountBalance { get; private set; }
 
 
@@ -38,9 +38,19 @@ namespace StorageLibs.Classes.Base
             return AccountBalance < total ? false : true;
         }
 
-        public void RiseBalance(decimal _amount) => WalletChange(AccountBalance += _amount);
+        public void RiseBalance(decimal _amount)
+        {
+            AccountBalance += _amount;
+            try { WalletChange(AccountBalance); } catch { }
+        }
 
-        public void LowerBalance(decimal _amount) => WalletChange(AccountBalance -= _amount);
+        public void LowerBalance(decimal _amount)
+        {
+            AccountBalance -= _amount;
+            try { WalletChange(AccountBalance); } catch { }
+        }
+        
+
 
         public void NewStorage(StorageBase _storageParams)
         {

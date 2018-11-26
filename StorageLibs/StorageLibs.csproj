@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Base\GoodsList.cs" />
     <Compile Include="Classes\Base\Good.cs" />
+    <Compile Include="Classes\MasterStorage.cs" />
     <Compile Include="Classes\Base\Person.cs" />
     <Compile Include="Classes\Base\StorageBase.cs" />
     <Compile Include="Classes\Base\Transaction.cs" />
@@ -49,5 +51,6 @@
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Randomizer.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

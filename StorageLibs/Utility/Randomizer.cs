@@ -27,5 +27,14 @@ namespace StorageLibs.Utility
             Logger.SendLogMessage("Generated value = " + AV.ToString());
             return Convert.ToDecimal(AV);
         }
+
+        public static string GetRandomName()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+
+            string[] Names = { "Bobby's storage", "Щящлик у дяди Вахтанга", "D-Storage", "IKEA", "Space-X", "Еще один склад", "Фантазия кончилась", "Что же делать?"};
+
+            return Names[rnd.Next(0, Names.Length - 1)];
+        }
     }
 }
