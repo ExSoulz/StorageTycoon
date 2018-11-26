@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StorageLibs.Utility;
 
 namespace StorageLibs.Classes.Base
 {
@@ -11,5 +7,13 @@ namespace StorageLibs.Classes.Base
         public string Name { get; set; }
         public int Volume { get; set; }
         public decimal Price { get; set; }
+
+
+        public Good(string _name, int _volume, decimal _pricePerUnit)
+        {
+            Name = _name;
+            Volume = _volume;
+            Price = _pricePerUnit;
+        }
     }
 }

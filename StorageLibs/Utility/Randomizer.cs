@@ -17,5 +17,15 @@ namespace StorageLibs.Utility
             Logger.SendLogMessage("Generated value = " + AV.ToString());
             return Convert.ToDecimal(AV);
         }
+
+        public static decimal GetAccountValue(int min, int max)
+        {
+            Random rnd = new Random(Convert.ToInt32(DateTime.Now.Millisecond));
+            var body = rnd.Next(min,max);
+            var add = rnd.Next(0, 1000) * rnd.NextDouble();
+            var AV = body + add;
+            Logger.SendLogMessage("Generated value = " + AV.ToString());
+            return Convert.ToDecimal(AV);
+        }
     }
 }
