@@ -13,6 +13,7 @@ namespace StorageLibs.Classes
         public event StorageEventDelegate NotEnoughtMoneyEvent;
         public event StorageEventDelegate GoodsSoldEvent;
         public event StorageEventDelegate GoodsRecievedEvent;
+        public event StorageEventDelegate NotEnoughtGoods;
         #endregion
 
         #region Fields
@@ -54,7 +55,7 @@ namespace StorageLibs.Classes
         { }
 
         #endregion
-
+        //  
         public Dictionary<Good, int> GetGoodsInStorage => Goods;
 
         public int GetAmountOfGoodInStorage(Good _good) => Goods[_good];
@@ -62,7 +63,7 @@ namespace StorageLibs.Classes
         public bool TransferGoods(Good _good, int _amount, StorageBase _storageTo)
         {
             var price = _good.Price * _amount;
-            if (!_storageTo.IsStorageFull && _storageTo.Owner.CanAffordIt(_good, _amount))
+            if (!_storageTo.IsStorageFull && _storageTo.Owner.CanAffordIt(_good, _amount) && (this.Goods[_good] > _amount))
             {
                 _storageTo.AddGood(_good, _amount, this);
                 _storageTo.Owner.LowerBalance(price);
@@ -72,8 +73,9 @@ namespace StorageLibs.Classes
             }
             else
             {
-                if (!_storageTo.IsStorageFull) _storageTo.NotEnoughtFreeSpaceEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, false));
+                if (_storageTo.IsStorageFull) _storageTo.NotEnoughtFreeSpaceEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, false));
                 if (!_storageTo.Owner.CanAffordIt(_good, _amount)) _storageTo.NotEnoughtMoneyEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, false));
+                if (this.Goods[_good] < _amount) this.NotEnoughtGoods(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, false));
                 GoodsSoldEvent(Transaction.GenerateStructure(this, _storageTo, _good, _amount, price, false));
                 return false;
             }
@@ -81,6 +83,7 @@ namespace StorageLibs.Classes
 
         public void AddGood(Good _good, int _amount, StorageBase _storageFrom)
         {
+            
             var price = _good.Price * _amount;
             if (IsGoodAlreadyExists(_good))
             {
@@ -91,7 +94,8 @@ namespace StorageLibs.Classes
                 Goods.Add(_good, _amount);
             }
             _storageFrom.DismissGood(_good, _amount);
-            try { GoodsRecievedEvent(Transaction.GenerateStructure(_storageFrom, this, _good, _amount, price, false)); } catch { }
+            if (_storageFrom.Title != "MASTER STORAGE") try { GoodsRecievedEvent(Transaction.GenerateStructure(_storageFrom, this, _good, _amount, price, false)); } catch { }
+
         }
 
         public void DismissGood(Good _good, int _amount) => Goods[_good] -= _amount;
